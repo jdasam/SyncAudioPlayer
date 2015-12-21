@@ -28,8 +28,8 @@ for (var i=0; i<fftSize/2; i++){
     dummyArray[i] = 0;
 }
 
-var csvA
-var csvB
+var csvA =[];
+var csvB =[];
 
 
 
@@ -55,31 +55,44 @@ window.onload=function(){
 	var canvas = document.getElementById("interfaceCanvas");
 	canvas.addEventListener("mousedown", doMouseDown, false);
 
-	var file = 'audioA.mp3';
-	var fileReader = new FileReader();
-	fileReader.onload = fileLoaded;
-	fileReader.readAsArrayBuffer(file);
-	startOffset = 0;
 
-	var file = 'audioB.mp3';
-	var fileReader = new FileReader();
-	fileReader.onload = fileLoadedB;
-	fileReader.readAsArrayBuffer(file);
+	var getSound = new XMLHttpRequest();
+	var getSoundB = new XMLHttpRequest();
+
+
+	getSound.open("GET", "audioA.mp3", true);
+	getSound.responseType = "arraybuffer";
+	getSound.onload = function() {
+		context.decodeAudioData(getSound.response, audioFileDecoded, audioFileDecodeFailed)
+		};
+	getSound.send();
+
+	getSoundB.open("GET", "audioB.mp3", true);
+	getSoundB.responseType = "arraybuffer";
+	getSoundB.onload = function() {
+		context.decodeAudioData(getSoundB.response, audioFileDecodedB, audioFileDecodeFailed)
+		};
+	getSoundB.send();
 
 	Papa.parse('csvA.csv', {
+		download: true,
 		dynamicTyping: true,
 		complete: function(results) {
 			csvA = results;
-			console.log(csvA);
+			console.log(csvA.data[0][0]);
+
 		}
 	});
-
+	/*
 	Papa.parse('csvB.csv', {
+		download: true,
 		dynamicTyping: true,
 		complete: function(results) {
 			csvB = results;
 		}
 	});
+*/
+
 
 	audioContext = new contextClass();
 
