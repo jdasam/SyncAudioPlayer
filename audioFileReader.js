@@ -214,14 +214,14 @@ function switchAudio(){
 	startTime = audioContext.currentTime;
 	if (playingB){
 		sourceNode.buffer = audioFile;
-		startOffset = indexInterpolation(startOffset, csvB, csvA)
+		startOffset = startOffset / audioFileB.length * audioFile.length
 		sourceNode.start(0, startOffset % audioFile.duration);
 		playingOn = true;
 		playingB = false;
 	}
 	else{
 		sourceNode.buffer = audioFileB;
-		startOffset = indexInterpolation(startOffset, csvA, csvB)
+		startOffset = startOffset * audioFileB.length / audioFile.length
 		sourceNode.start(0, startOffset % audioFile.duration);
 		playingOn = true;
 		playingB = true;		
