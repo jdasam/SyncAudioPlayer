@@ -1,0 +1,83 @@
+<html>
+<head>
+	<script src="audioFileReader.js"></script>
+	<script src="papaparse.js"></script>
+
+</head>
+<body>
+	<div style="width:600; height:100">
+	<canvas id="plottingCanvas" width="1000" height="50" style="position:absolute; left:0 px; top:0 px; z-index:1;"></canvas>
+	<canvas id="interfaceCanvas" width="1000" height="50" style="position:absolute; left:0 px; top:0 px; z-index:2;"></canvas>
+	</div>
+	<div>
+	<input id="fileChooseInput" type="file"></input>
+	<input id="fileChooseInputB" type="file"></input>
+
+	</div>
+	<div>
+	<input id="fileChooseInputCsvA" type="file"></input>
+	<input id="fileChooseInputCsvB" type="file"></input>
+
+	</div>
+
+	<div id="menu">
+	<button class="btn btn-primary" data-action="pause">
+		<i class="glyphicon glyphicon-play"></i>
+		Pause
+	</button>
+	<button class="btn btn-primary" data-action="play">
+		<i class="glyphicon glyphicon-play"></i>
+		Play
+	</button>
+	<button class="btn btn-primary" data-action="stop">
+		<i class="glyphicon glyphicon-play"></i>
+		Stop
+	</button>
+	<button class="btn btn-primary" data-action="switchAudio">
+		<i class="glyphicon glyphicon-play"></i>
+		Switch
+	</button>
+	</div>
+
+
+</body>
+
+<script>
+
+function Menu(elem) {
+  elem.onclick = function(e) {
+    var target = e && e.target || event.srcElement
+    var action = target.getAttribute('data-action')
+    if (action=="play" && playingOn == false) {
+    	playSound(audioFile);
+    }
+    else if(action=="pause") {
+    	pause();
+    }
+    else if(action=="stop") {
+    	stop();
+    }
+    else if(action=="switchAudio"){
+    	switchAudio();
+    }
+  }
+}
+new Menu(document.getElementById('menu'))
+
+
+
+var plottingCanvasWidth = document.getElementById("plottingCanvas").width;
+var plottingCanvasHeight = document.getElementById("plottingCanvas").height;
+
+var canvas = document.getElementById("plottingCanvas")
+var graphic_context = canvas.getContext("2d");
+graphic_context.fillStyle= "#DCDCDC";
+graphic_context.fillRect(0,0,canvas.width, canvas.height);
+
+
+
+
+
+
+</script>
+</html>
