@@ -83,7 +83,7 @@ window.onload=function(){
 
 		}
 	});
-	/*
+	
 	Papa.parse('csvB.csv', {
 		download: true,
 		dynamicTyping: true,
