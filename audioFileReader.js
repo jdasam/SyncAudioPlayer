@@ -55,19 +55,32 @@ window.onload=function(){
 	var canvas = document.getElementById("interfaceCanvas");
 	canvas.addEventListener("mousedown", doMouseDown, false);
 
-	var control = document.getElementById("fileChooseInput");
-	control.addEventListener("change", fileChanged, false);
+	var file = 'audioA.mp3';
+	var fileReader = new FileReader();
+	fileReader.onload = fileLoaded;
+	fileReader.readAsArrayBuffer(file);
+	startOffset = 0;
 
-	var controlB = document.getElementById("fileChooseInputB");
-	controlB.addEventListener("change", fileChangedB, false);
+	var file = 'audioB.mp3';
+	var fileReader = new FileReader();
+	fileReader.onload = fileLoadedB;
+	fileReader.readAsArrayBuffer(file);
 
-	var controlCsvA = document.getElementById("fileChooseInputCsvA");
-	controlCsvA.addEventListener("change", csvFileChangedA, false);
+	Papa.parse('csvA.csv', {
+		dynamicTyping: true,
+		complete: function(results) {
+			csvA = results;
+			console.log(csvA);
+		}
+	});
 
-
-	var controlCsvB = document.getElementById("fileChooseInputCsvB");
-	controlCsvB.addEventListener("change", csvFileChangedB, false);
-
+	Papa.parse('csvB.csv', {
+		dynamicTyping: true,
+		complete: function(results) {
+			csvB = results;
+		}
+	});
+}
 
 	audioContext = new contextClass();
 
@@ -81,43 +94,6 @@ window.requestAnimFrame = (function(callback) {
 })();
 
 
-
-
-//file loading
-
-function fileChanged(e){
-	var file = e.target.files[0];
-	var fileReader = new FileReader();
-	fileReader.onload = fileLoaded;
-	fileReader.readAsArrayBuffer(file);
-	startOffset = 0;
-}
-function fileChangedB(e){
-	var file = e.target.files[0];
-	var fileReader = new FileReader();
-	fileReader.onload = fileLoadedB;
-	fileReader.readAsArrayBuffer(file);
-}
-
-function csvFileChangedA(e){
-	Papa.parse(e.target.files[0], {
-		dynamicTyping: true,
-		complete: function(results) {
-			csvA = results;
-			console.log(csvA);
-		}
-	});
-
-}
-
-function csvFileChangedB(e){
-	Papa.parse(e.target.files[0], {
-		dynamicTyping: true,
-		complete: function(results) {
-			csvB = results;
-		}
-	});
-}
 
 
 
